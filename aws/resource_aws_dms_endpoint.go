@@ -250,6 +250,7 @@ func resourceAwsDmsEndpoint() *schema.Resource {
 				Optional:  true,
 				Sensitive: true,
 				StateFunc: hashSum,
+				DiffSuppressFunc: comparePasswordHashes,
 			},
 			"port": {
 				Type:     schema.TypeInt,

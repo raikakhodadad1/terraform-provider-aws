@@ -120,3 +120,16 @@ func suppressEquivalentJsonOrYamlDiffs(k, old, new string, d *schema.ResourceDat
 func suppressEqualCIDRBlockDiffs(k, old, new string, d *schema.ResourceData) bool {
 	return cidrBlocksEqual(old, new)
 }
+
+func comparePasswordHashes(k, old, new string, d *schema.ResourceData) bool {
+	o_passwd, n_passwd := d.GetChange("password")
+	o_passwdHash := hashSum(o_passwd)
+
+	match := false
+
+	if o_passwdHash == n_passwd {
+		match = true
+	}
+
+	return match
+}

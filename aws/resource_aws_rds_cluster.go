@@ -342,6 +342,7 @@ func resourceAwsRDSCluster() *schema.Resource {
 				Optional:  true,
 				Sensitive: true,
 				StateFunc: hashSum,
+				DiffSuppressFunc: comparePasswordHashes,
 			},
 
 			"snapshot_identifier": {

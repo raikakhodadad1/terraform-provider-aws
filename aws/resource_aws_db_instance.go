@@ -67,6 +67,7 @@ func resourceAwsDbInstance() *schema.Resource {
 				Optional:  true,
 				Sensitive: true,
 				StateFunc: hashSum,
+				DiffSuppressFunc: comparePasswordHashes,
 			},
 
 			"deletion_protection": {
