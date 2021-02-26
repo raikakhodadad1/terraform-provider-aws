@@ -122,12 +122,11 @@ func suppressEqualCIDRBlockDiffs(k, old, new string, d *schema.ResourceData) boo
 }
 
 func comparePasswordHashes(k, old, new string, d *schema.ResourceData) bool {
-	o_passwd, n_passwd := d.GetChange("password")
-	o_passwdHash := hashSum(o_passwd)
+	//o_passwd, n_passwd := d.GetChange("password")
+	o_passwdHash := hashSum(old)
 
 	match := false
-
-	if o_passwdHash == n_passwd {
+	if o_passwdHash == new {
 		match = true
 	}
 
