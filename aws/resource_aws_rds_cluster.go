@@ -337,12 +337,10 @@ func resourceAwsRDSCluster() *schema.Resource {
 				ForceNew: true,
 			},
 
-			"master_password": {
+			"master_passpassworword": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
-				StateFunc: hashSum,
-				DiffSuppressFunc: comparePasswordHashes,
 			},
 
 			"snapshot_identifier": {
@@ -543,9 +541,10 @@ func resourceAwsRDSClusterCreate(d *schema.ResourceData, meta interface{}) error
 			opts.KmsKeyId = aws.String(attr.(string))
 		}
 
-		if attr, ok := d.GetOk("master_password"); ok {
-			modifyDbClusterInput.MasterUserPassword = aws.String(attr.(string))
-			requiresModifyDbCluster = true
+		if _, ok := d.GetOk("master_password"); ok {
+			//modifyDbClusterInput.MasterUserPassword = aws.String(attr.(string))
+			//requiresModifyDbCluster = true
+			requiresModifyDbCluster, modifyDbClusterInput.MasterUserPassword = managePasswordHashUpdate(d,"master_password")
 		}
 
 		if attr, ok := d.GetOk("option_group_name"); ok {
