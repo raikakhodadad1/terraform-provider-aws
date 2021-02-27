@@ -541,10 +541,9 @@ func resourceAwsRDSClusterCreate(d *schema.ResourceData, meta interface{}) error
 			opts.KmsKeyId = aws.String(attr.(string))
 		}
 
-		if _, ok := d.GetOk("master_password"); ok {
-			//modifyDbClusterInput.MasterUserPassword = aws.String(attr.(string))
-			//requiresModifyDbCluster = true
-			requiresModifyDbCluster, modifyDbClusterInput.MasterUserPassword = managePasswordHashUpdate(d,"master_password")
+		if attr, ok := d.GetOk("master_password"); ok {
+			modifyDbClusterInput.MasterUserPassword = aws.String(attr.(string))
+			requiresModifyDbCluster = true
 		}
 
 		if attr, ok := d.GetOk("option_group_name"); ok {
@@ -1136,8 +1135,9 @@ func resourceAwsRDSClusterUpdate(d *schema.ResourceData, meta interface{}) error
 	}
 
 	if d.HasChange("master_password") {
-		req.MasterUserPassword = aws.String(d.Get("master_password").(string))
-		requestUpdate = true
+		//req.MasterUserPassword = aws.String(d.Get("master_password").(string))
+		//requestUpdate = true
+		requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"master_password")
 	}
 
 	if d.HasChange("engine_version") {
