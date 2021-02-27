@@ -337,7 +337,7 @@ func resourceAwsRDSCluster() *schema.Resource {
 				ForceNew: true,
 			},
 
-			"master_passpassworword": {
+			"master_password": {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
