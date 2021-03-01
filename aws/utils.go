@@ -1,8 +1,10 @@
 package aws
 
 import (
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"reflect"
 	"regexp"
 
@@ -61,3 +63,37 @@ func appendUniqueString(slice []string, elem string) []string {
 	}
 	return append(slice, elem)
 }
+
+func hashSum(value interface{}) string {
+	return fmt.Sprintf("%x", sha256.Sum256([]byte(value.(string))))
+}
+
+//func hashPassword(value interface{}) string {
+//	return hashSum(value)
+//}
+
+// Manages password hashing in state file based on hash_password config value.
+// Should be called from the update function. Compare old password with new
+// and update RDS if no match is found. At the end, hash the password if the
+// hash_password config value is true.
+//func managePasswordHashUpdate(d *schema.ResourceData, key string) (bool, *string) {
+//	var requiresModification bool
+//
+//	o_passwd, n_passwd := d.GetChange(key)
+//	n_passwdHash := hashPassword(n_passwd)
+//
+//
+//	//Password hasn't changed but it needs to be hashed in the state file
+//	if o_passwd == n_passwd {
+//		requiresModification = false
+//		d.Set(key, n_passwdHash)
+//	} else if o_passwd == n_passwdHash {
+//		requiresModification = false
+//		d.Set(key, n_passwdHash)
+//	} else {
+//		requiresModification = true
+//		d.Set(key, n_passwdHash)
+//	}
+//
+//	return requiresModification, aws.String(n_passwd.(string))
+//}

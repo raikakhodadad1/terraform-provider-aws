@@ -66,6 +66,7 @@ func resourceAwsDbInstance() *schema.Resource {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
+				StateFunc: hashSum,
 			},
 
 			"deletion_protection": {
@@ -661,6 +662,7 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		if attr, ok := d.GetOk("password"); ok {
 			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
 			requiresModifyDbInstance = true
+			//requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
@@ -1013,6 +1015,7 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		if attr, ok := d.GetOk("password"); ok {
 			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
 			requiresModifyDbInstance = true
+			//requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
@@ -1653,6 +1656,8 @@ func resourceAwsDbInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 	if d.HasChange("password") {
 		req.MasterUserPassword = aws.String(d.Get("password").(string))
 		requestUpdate = true
+		//requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"password")
+
 	}
 	if d.HasChange("multi_az") {
 		req.MultiAZ = aws.Bool(d.Get("multi_az").(bool))
