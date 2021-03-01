@@ -1011,8 +1011,9 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 		}
 
 		if attr, ok := d.GetOk("password"); ok {
-			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
-			requiresModifyDbInstance = true
+			//modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
+			//requiresModifyDbInstance = true
+			requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
