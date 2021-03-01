@@ -385,6 +385,7 @@ func resourceAwsDbInstanceStateUpgradeV0(_ context.Context, rawState map[string]
 	}
 
 	rawState["delete_automated_backups"] = true
+	rawState["password"] = resourcePasswordStateUpgrade
 
 	return rawState, nil
 }
