@@ -68,9 +68,9 @@ func hashSum(value interface{}) string {
 	return fmt.Sprintf("%x", sha256.Sum256([]byte(value.(string))))
 }
 
-func hashPassword(value interface{}) string {
-	return hashSum(value)
-}
+//func hashPassword(value interface{}) string {
+//	return hashSum(value)
+//}
 
 // Manages password hashing in state file based on hash_password config value.
 // Should be called from the update function. Compare old password with new
