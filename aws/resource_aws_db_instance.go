@@ -1010,7 +1010,7 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 			opts.DBParameterGroupName = aws.String(attr.(string))
 		}
 
-		if attr, ok := d.GetOk("password"); ok {
+		if _, ok := d.GetOk("password"); ok {
 			//modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
 			//requiresModifyDbInstance = true
 			requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
