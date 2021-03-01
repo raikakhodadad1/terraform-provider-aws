@@ -5,8 +5,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"reflect"
 	"regexp"
 
@@ -78,24 +76,24 @@ func hashPassword(value interface{}) string {
 // Should be called from the update function. Compare old password with new
 // and update RDS if no match is found. At the end, hash the password if the
 // hash_password config value is true.
-func managePasswordHashUpdate(d *schema.ResourceData, key string) (bool, *string) {
-	var requiresModification bool
-
-	o_passwd, n_passwd := d.GetChange(key)
-	n_passwdHash := hashPassword(n_passwd)
-
-
-	//Password hasn't changed but it needs to be hashed in the state file
-	if o_passwd == n_passwd {
-		requiresModification = false
-		d.Set(key, n_passwdHash)
-	} else if o_passwd == n_passwdHash {
-		requiresModification = false
-		d.Set(key, n_passwdHash)
-	} else {
-		requiresModification = true
-		d.Set(key, n_passwdHash)
-	}
-
-	return requiresModification, aws.String(n_passwd.(string))
-}
+//func managePasswordHashUpdate(d *schema.ResourceData, key string) (bool, *string) {
+//	var requiresModification bool
+//
+//	o_passwd, n_passwd := d.GetChange(key)
+//	n_passwdHash := hashPassword(n_passwd)
+//
+//
+//	//Password hasn't changed but it needs to be hashed in the state file
+//	if o_passwd == n_passwd {
+//		requiresModification = false
+//		d.Set(key, n_passwdHash)
+//	} else if o_passwd == n_passwdHash {
+//		requiresModification = false
+//		d.Set(key, n_passwdHash)
+//	} else {
+//		requiresModification = true
+//		d.Set(key, n_passwdHash)
+//	}
+//
+//	return requiresModification, aws.String(n_passwd.(string))
+//}
