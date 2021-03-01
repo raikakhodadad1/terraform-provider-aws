@@ -100,9 +100,9 @@ func managePasswordHashUpdate(d *schema.ResourceData, key string) (bool, *string
 	return requiresModification, aws.String(n_passwd.(string))
 }
 
-func resourcePasswordStateUpgrade(d *schema.ResourceData, key string) string{
-
-	hashed_password := d.Get(key).(string)
-
-	return hashed_password
-}
+//func resourcePasswordStateUpgrade(d *schema.ResourceData, key string) string{
+//
+//	hashed_password := d.Get(key).(string)
+//
+//	return hashed_password
+//}
