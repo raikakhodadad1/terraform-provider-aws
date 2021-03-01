@@ -1135,9 +1135,9 @@ func resourceAwsRDSClusterUpdate(d *schema.ResourceData, meta interface{}) error
 	}
 
 	if d.HasChange("master_password") {
-		//req.MasterUserPassword = aws.String(d.Get("master_password").(string))
-		//requestUpdate = true
-		requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"master_password")
+		req.MasterUserPassword = aws.String(d.Get("master_password").(string))
+		requestUpdate = true
+		//requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"master_password")
 	}
 
 	if d.HasChange("engine_version") {

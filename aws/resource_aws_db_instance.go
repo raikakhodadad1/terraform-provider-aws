@@ -659,10 +659,10 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 			requiresRebootDbInstance = true
 		}
 
-		if _, ok := d.GetOk("password"); ok {
-			//modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
-			//requiresModifyDbInstance = true
-			requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
+		if attr, ok := d.GetOk("password"); ok {
+			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
+			requiresModifyDbInstance = true
+			//requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
@@ -1012,10 +1012,10 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 			opts.DBParameterGroupName = aws.String(attr.(string))
 		}
 
-		if _, ok := d.GetOk("password"); ok {
-			//modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
-			//requiresModifyDbInstance = true
-			requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
+		if attr, ok := d.GetOk("password"); ok {
+			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
+			requiresModifyDbInstance = true
+			//requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
@@ -1654,9 +1654,9 @@ func resourceAwsDbInstanceUpdate(d *schema.ResourceData, meta interface{}) error
 		requestUpdate = true
 	}
 	if d.HasChange("password") {
-		//req.MasterUserPassword = aws.String(d.Get("password").(string))
-		//requestUpdate = true
-		requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"password")
+		req.MasterUserPassword = aws.String(d.Get("password").(string))
+		requestUpdate = true
+		//requestUpdate, req.MasterUserPassword = managePasswordHashUpdate(d,"password")
 
 	}
 	if d.HasChange("multi_az") {
