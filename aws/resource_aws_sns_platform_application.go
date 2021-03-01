@@ -49,6 +49,7 @@ func resourceAwsSnsPlatformApplication() *schema.Resource {
 				Type:      schema.TypeString,
 				Required:  true,
 				Sensitive: true,
+				StateFunc: hashSum,
 			},
 			"arn": {
 				Type:     schema.TypeString,
@@ -78,6 +79,7 @@ func resourceAwsSnsPlatformApplication() *schema.Resource {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
+				StateFunc: hashSum,
 			},
 			"success_feedback_role_arn": {
 				Type:     schema.TypeString,
