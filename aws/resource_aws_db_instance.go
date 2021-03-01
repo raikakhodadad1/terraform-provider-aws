@@ -66,6 +66,7 @@ func resourceAwsDbInstance() *schema.Resource {
 				Type:      schema.TypeString,
 				Optional:  true,
 				Sensitive: true,
+				StateFunc: hashSum,
 			},
 
 			"deletion_protection": {
@@ -658,9 +659,10 @@ func resourceAwsDbInstanceCreate(d *schema.ResourceData, meta interface{}) error
 			requiresRebootDbInstance = true
 		}
 
-		if attr, ok := d.GetOk("password"); ok {
-			modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
-			requiresModifyDbInstance = true
+		if _, ok := d.GetOk("password"); ok {
+			//modifyDbInstanceInput.MasterUserPassword = aws.String(attr.(string))
+			//requiresModifyDbInstance = true
+			requiresModifyDbInstance, modifyDbInstanceInput.MasterUserPassword = managePasswordHashUpdate(d,"password")
 		}
 
 		if attr, ok := d.GetOk("port"); ok {
